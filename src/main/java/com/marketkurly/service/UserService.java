@@ -1,6 +1,8 @@
 package com.marketkurly.service;
 
+import com.marketkurly.dto.requestDto.UserRequestDto;
 import com.marketkurly.repository.UserRepository;
+import com.marketkurly.security.JwtTokenProvider;
 import com.marketkurly.util.SignupValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,9 +14,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor //final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성해주는 롬복 어노테이션
 @Service //서비스 레이어, 내부에서 자바 로직을 처리함
 public class UserService {
-    private final SignupValidator signupValidator;
-    private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final SignupValidator signupValidator; // 로그인 유효성 검사
+    private final UserRepository userRepository; // 사용자 저장소
+    private final JwtTokenProvider jwtTokenProvider; // 토큰 제공기
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
 

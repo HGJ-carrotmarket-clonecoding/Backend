@@ -1,13 +1,10 @@
 package com.marketkurly.util;
 
 
-import com.sparta.kerly_clone.dto.requestDto.SignupRequestDto;
-import com.sparta.kerly_clone.exception.DuplicateUserException;
-import com.sparta.kerly_clone.exception.EmailFormException;
-import com.sparta.kerly_clone.exception.EmptyException;
-import com.sparta.kerly_clone.exception.LengthException;
-import com.sparta.kerly_clone.model.User;
-import com.sparta.kerly_clone.repository.UserRepository;
+import com.marketkurly.dto.requestDto.SignupRequestDto;
+import com.marketkurly.exception.EmptyException;
+import com.marketkurly.model.User;
+import com.marketkurly.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
