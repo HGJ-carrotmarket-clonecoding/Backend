@@ -26,6 +26,7 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     public boolean checkDupEmail(String email){
+
         return signupValidator.validate(email);
     }
 
@@ -51,6 +52,12 @@ public class UserService {
     return true;
     }
 
+    public User loadUserEamil(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("로그인 정보가 존재하지 않습니다.")
+        );
+    }
+
     public User loginValidCheck(String email, String password) {
         if(email.equals("") || password.equals(""))
             throw new EmptyException("로그인 정보를 모두 입력해주세요.");
@@ -68,7 +75,7 @@ public class UserService {
    public String createToken(String email, String password){
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(email,password);
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);//인증객체만들수 있게 제공
         return jwtTokenProvider.createToken(authentication);
     }
 

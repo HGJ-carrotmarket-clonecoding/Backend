@@ -31,10 +31,12 @@ public class JwtTokenProvider {
     @Value("${jwt.token.key}")
     private String secretkey;
 
+    // 토큰 유효시간 120분
     private long tokenVaildTime = 120 * 60 * 1000L;
+
     private final UserdetailsServiceImpl userdetailsService;
 
-    @PostConstruct
+    @PostConstruct // 객체 초기화, secretKey를 Base64로 인코딩한다
     protected void init(){ secretkey = Base64.getEncoder().encodeToString(secretkey.getBytes());
     }
 
@@ -43,6 +45,7 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // JWT 토큰 생성
     public String createToken(Authentication authentication){
         StringJoiner joiner = new StringJoiner(",");
         for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
@@ -60,6 +63,8 @@ public class JwtTokenProvider {
                 .signWith(getSigninKey(), SignatureAlgorithm.ES256) //ES256알고리즘에 적합한 키를 이용하여 서명
                 .compact(); //압축
     }
+
+    // 인증 성공시 SecurityContextHolder에 저장할 Authentication 객체 생성
     public Authentication getAuthentication(String token){
         UserDetails userDetails = userdetailsService.loadUserByUsername(this.getUserPk(token));
         log.info("============getAuthentication===========");
@@ -68,7 +73,7 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }
 
-    //Pk추출
+    //Jwt Token에서 User PK 추출
     //토큰은 String 형태 생성 -> 우리가 사용하기 위한 형태로 parsing하기 위해서 jwts.parse()사용
     public String getUserPk(String token){
         JwtParser parser = Jwts.parserBuilder().setSigningKey(getSigninKey()).build();
@@ -83,6 +88,7 @@ public class JwtTokenProvider {
         else return header;
     }
 
+    // Jwt Token의 유효성 및 만료 기간 검사
     public boolean validateToken(String jwtToken) {
         if (jwtToken == null) {
             log.info("토큰이 존재하지 않습니다.");
