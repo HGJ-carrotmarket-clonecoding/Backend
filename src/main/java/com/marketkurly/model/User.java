@@ -3,6 +3,9 @@ package com.marketkurly.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marketkurly.dto.requestDto.SignupRequestDto;
 import lombok.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +18,7 @@ import java.util.List;
 @Builder
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id

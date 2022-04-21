@@ -9,6 +9,9 @@ import com.marketkurly.exception.LengthException;
 import com.marketkurly.model.User;
 import com.marketkurly.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +19,13 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Setter
 @Component
 @RequiredArgsConstructor
 public class SignupValidator {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
 
 
