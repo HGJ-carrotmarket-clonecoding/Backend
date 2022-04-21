@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
+    // 유저 정보를 조회하기 위한 클래스
+    // UserDetailsService에서 UserDetails 타입으로 반환하기 위하여
 
     private final User user;
 

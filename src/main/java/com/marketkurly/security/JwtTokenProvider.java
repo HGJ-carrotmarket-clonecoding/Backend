@@ -26,15 +26,18 @@ import java.util.StringJoiner;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
+    // JwtProvier 클래스는 토큰을 생성하고 해당 토큰이 유효한지 또는 토큰에서 인증 정보를 조회하는 역할을 담당합니다.
 
-//    @Value("${jwt.key}")
-    private String secretKey = "SecretKey";
+    @Value("${jwt.key}")
+    private String secretKey;
 
 
+    // 토큰 유효시간 30분
     private long tokenValidTime = 120 * 60 * 1000L;
     private final UserDetailsServiceImpl userDetailsService;
 
 
+    // 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
@@ -45,7 +48,9 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // JWT 토큰 생성
     public String createToken(Authentication authentication) {
+        log.info("22222 : JwtTokenProvider.createToken");
         StringJoiner joiner = new StringJoiner(",");
         for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
             String authority = grantedAuthority.getAuthority();
@@ -56,14 +61,15 @@ public class JwtTokenProvider {
         Date now = new Date();
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim("authorities", authorities)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidTime))
-                .signWith(getSigninKey(), SignatureAlgorithm.HS256)
+                .claim("authorities", authorities) // 정보 저장
+                .setIssuedAt(now) // 토큰 발행 시간 정보
+                .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
+                .signWith(getSigninKey(), SignatureAlgorithm.HS256) // 사용할 암호화 알고리즘과 signature 에 들어갈 secret값 세팅
                 .compact();
 
     }
 
+    // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         log.info("============getAuthentication===========");
@@ -72,13 +78,14 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
+    // 토큰에서 회원 정보 추출
     public String getUserPk(String token) {
         JwtParser parser = Jwts.parserBuilder().setSigningKey(getSigninKey()).build();
         Jws<Claims> claims = parser.parseClaimsJws(token);
         return claims.getBody().getSubject();
     }
 
-
+    // Request의 Header에서 token 값을 가져옵니다. "bearer" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
         final String header = request.getHeader("authorization");
         if (header != null && (header.toLowerCase().indexOf("bearer ") == 0))
@@ -86,6 +93,7 @@ public class JwtTokenProvider {
         else return header;
     }
 
+    // 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
         if (jwtToken == null) {
             log.info("토큰이 존재하지 않습니다.");

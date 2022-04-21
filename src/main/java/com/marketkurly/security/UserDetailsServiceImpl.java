@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    // UserDetailsService 인터페이스에는 사용자 이름UserDetails 으로 사용자를 로드하는 메소드가 있으며
-    // Spring Security가 인증 및 유효성 검사에 사용할 수 있는 객체를 반환합니다 .
+    // DB에서 유저의 정보를 조회하는 역할을 수행합니다.
+    // UserDetailsService 인터페이스에서 DB에서 유저정보를 불러오는 중요한 메소드는 loadUserByUsername() 메서드 입니다.
 
     private UserRepository userRepository;
 

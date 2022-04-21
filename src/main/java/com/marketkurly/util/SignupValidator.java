@@ -53,4 +53,12 @@ public class SignupValidator {
         Matcher m = p.matcher(email);
         if(m.matches()) { err = true; } return err;
     }
+
+    public boolean validate(String email) {
+        // 이메일 중복 확인을 위한 체크
+        Optional<User> userByEmail = userRepository.findByEmail(email);
+        if(userByEmail.isPresent())
+            throw new DuplicateUserException("이메일이 중복되었습니다.");
+        return true;
+    }
 }
