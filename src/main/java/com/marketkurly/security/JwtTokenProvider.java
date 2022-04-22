@@ -28,11 +28,11 @@ import java.util.StringJoiner;
 public class JwtTokenProvider {
     // JwtProvier 클래스는 토큰을 생성하고 해당 토큰이 유효한지 또는 토큰에서 인증 정보를 조회하는 역할을 담당합니다.
 
-    @Value("${jwt.key}")
-    private String secretKey;
+//    @Value("${jwt.key}")
+    private String secretKey = "spring-boot-jwt-market-kurly-secret-key-spring-boot-jwt-market-kurly-secret-key";
 
 
-    // 토큰 유효시간 30분
+    // 토큰 유효시간
     private long tokenValidTime = 120 * 60 * 1000L;
     private final UserDetailsServiceImpl userDetailsService;
 

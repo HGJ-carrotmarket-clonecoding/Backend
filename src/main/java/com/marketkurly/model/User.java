@@ -1,9 +1,12 @@
 package com.marketkurly.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marketkurly.dto.requsetDto.SignupRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,11 +34,11 @@ public class User {
 //    @OneToMany(mappedBy = "user")
 //    @JsonIgnore
 //    private List<Review> reviewList = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "user")
-//    @JsonIgnore
-//    private List<Cart> cartList = new ArrayList<>();
-//
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Cart> cartList = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "user")
 //    @JsonIgnore
 //    private List<Liked> likedList = new ArrayList<>();

@@ -60,4 +60,10 @@ public class UserService {
         return jwtTokenProvider.createToken(authentication);
     }
 
+    public User loadUserEamil(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("로그인 정보가 존재하지 않습니다.")
+        );
+    }
+
 }
