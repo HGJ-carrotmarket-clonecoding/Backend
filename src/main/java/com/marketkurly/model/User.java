@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Builder
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +33,9 @@ public class User {
     @JsonIgnore
     private List<Review> reviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    /*@OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<Cart> cartList = new ArrayList<>();
+    private List<Cart> cartList = new ArrayList<>();*/
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore

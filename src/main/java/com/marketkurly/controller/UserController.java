@@ -1,3 +1,4 @@
+
 package com.marketkurly.controller;
 
 import com.marketkurly.dto.reponseDto.LoginResDto;
@@ -13,20 +14,20 @@ import com.marketkurly.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.realm.UserDatabaseRealm;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@AllArgsConstructor
 @RequiredArgsConstructor
+@Tag(name = "User Controller Api V1")
+@RestController
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -52,8 +53,8 @@ public class UserController {
     }
 
     @Operation(summary = "이메일 중복 확인")
-    @PostMapping("/register")
-    public ResponseDto dupCheckEmail(@Parameter(name="eamil",description = "이메일", in = ParameterIn.QUERY)@RequestBody String email){
+    @GetMapping("/register")
+    public ResponseDto dupCheckEmail(@Parameter(name="eamil",description = "`이메일", in = ParameterIn.QUERY)@RequestBody String email){
         log.info("GET, '/user/register', email={}", email);
         String result = "failde";
         String msg = "사용할 수 없는 아이디 입니다";

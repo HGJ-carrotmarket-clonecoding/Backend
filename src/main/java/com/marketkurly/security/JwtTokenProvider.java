@@ -28,8 +28,8 @@ import java.util.StringJoiner;
 @Slf4j
 @Component
 public class JwtTokenProvider {
-    @Value("${jwt.token.key}")
-    private String secretkey;
+    //@Value("${jwt.token.key}")
+    private String secretkey = "PhysicalNamingStrategyStandardImpl-PhysicalNamingStrategyStandardImpl";
 
     // 토큰 유효시간 120분
     private long tokenVaildTime = 120 * 60 * 1000L;
@@ -60,7 +60,7 @@ public class JwtTokenProvider {
                 .claim("authorities",authorities) //JWT의 'body', JWT 생성자가 JWT 수신자가 확인하기를 바라는 정보들을 담고 있다
                 .setIssuedAt(now) //Jwt 발급한 시간 지정
                 .setExpiration(new Date(now.getTime()+tokenVaildTime)) // 만료시간 지정
-                .signWith(getSigninKey(), SignatureAlgorithm.ES256) //ES256알고리즘에 적합한 키를 이용하여 서명
+                .signWith(getSigninKey(), SignatureAlgorithm.HS256) //HS256알고리즘에 적합한 키를 이용하여 서명
                 .compact(); //압축
     }
 
@@ -75,7 +75,7 @@ public class JwtTokenProvider {
 
     //Jwt Token에서 User PK 추출
     //토큰은 String 형태 생성 -> 우리가 사용하기 위한 형태로 parsing하기 위해서 jwts.parse()사용
-    public String getUserPk(String token){
+    public String getUserPk(String token) {
         JwtParser parser = Jwts.parserBuilder().setSigningKey(getSigninKey()).build();
         Jws<Claims> claims = parser.parseClaimsJws(token);
         return claims.getBody().getSubject();
