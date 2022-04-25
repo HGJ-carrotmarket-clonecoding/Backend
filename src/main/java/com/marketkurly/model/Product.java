@@ -63,10 +63,10 @@ public class Product {
     @Schema(description = "조회수")
     private int viewCount;
 
-//    @OneToMany(mappedBy = "product")
-//    @JsonIgnore
-//    @Schema(description = "리뷰")
-//    private List<Review> reviews;
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    @Schema(description = "리뷰")
+    private List<Review> reviews;
 
     public Product(String name, Long price, String description, String category1, String category2, String image, int viewCount) {
         this.name = name;

@@ -31,17 +31,17 @@ public class User {
     @Column
     private String username;
 
-//    @OneToMany(mappedBy = "user")
-//    @JsonIgnore
-//    private List<Review> reviewList = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Cart> cartList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "user")
-//    @JsonIgnore
-//    private List<Liked> likedList = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Liked> likedList = new ArrayList<>();
 
     public User(SignupRequestDto signupRequestDto) {
         this.email = signupRequestDto.getEmail();
