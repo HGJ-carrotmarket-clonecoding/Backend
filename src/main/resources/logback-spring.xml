@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds">
+<!-- 30초마다 설정 파일의 변경을 확인 하여 변경시 갱신 -->
     <property name="LOG_DIR" value="logs"></property>
+    <!-- 로그를 저장할 경로는 프로퍼티로 설정   -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- ConsoleAppender 콘솔에 로그를 작성 -->
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%-5level] : %msg%n</pattern>
+            <pattern>%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%highlight(%-5level)] %cyan(%logger{36}): %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- RollingFileAppender 로그 파일을 롤오버하는 기능-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <!-- ThresholdFilter 지정된 레벨 미만의 이벤트를 필터링 INFO이상 출력-->
             <level>INFO</level>
         </filter>
-<!--        <file>${LOG_DIR}/log.txt</file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <!-- TimeBasedRollingPolicy 일별 또는 월별과 같이 시간을 기준으로 롤오버 정책을 정의-->
             <!-- rollover daily -->
-            <fileNamePattern>${LOG_DIR}/log-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/log-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 로그 파일의 이름을 정의-->
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- SizeAndTimeBasedFNATP 로그 파일의 크기가 커지는 것을 방지하기 위한 옵션-->
                 <!-- or whenever the file size reaches 100MB -->
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -24,8 +31,46 @@
             <pattern>[%-5level] %d{HH:mm:ss.SSS} %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-    <root level="debug">
+
+    <!-- 에러의 경우 파일에 로그 처리 -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- RollingFileAppender 로그 파일을 롤오버하는 기능-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- ThresholdFilter 지정된 레벨 미만의 이벤트를 필터링 INFO이상 출력-->
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- TimeBasedRollingPolicy 일별 또는 월별과 같이 시간을 기준으로 롤오버 정책을 정의-->
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_DIR}/log_err-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 로그 파일의 이름을 정의-->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- SizeAndTimeBasedFNATP 로그 파일의 크기가 커지는 것을 방지하기 위한 옵션-->
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%-5level] %d{HH:mm:ss.SSS} %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- log4jdbc 옵션 설정 -->
+    <logger name="jdbc" level="OFF" /> <!-- 커넥션 open close 이벤트를 로그로 남긴다. -->
+    <logger name="jdbc.connection" level="OFF" /> <!-- SQL문만을 로그로 남기며, PreparedStatement일 경우 관련된 argument 값으로 대체된 SQL문이 보여진다. -->
+    <logger name="jdbc.sqlonly" level="DEBUG" /> <!-- SQL문과 해당 SQL을 실행시키는데 수행된 시간 정보(milliseconds)를 포함한다. -->
+    <logger name="jdbc.sqltiming" level="INFO" /> <!-- ResultSet을 제외한 모든 JDBC 호출 정보를 로그로 남긴다. 많은 양의 로그가 생성되므로 특별히 JDBC 문제를 추적해야 할 필요가 있는 경우를 제외하고는 사용을 권장하지 않는다. -->
+    <logger name="jdbc.audit" level="WARN" /> <!-- ResultSet을 포함한 모든 JDBC 호출 정보를 로그로 남기므로 매우 방대한 양의 로그가 생성된다. -->
+    <logger name="jdbc.resultset" level="ERROR" /> <!-- SQL 결과 조회된 데이터의 table을 로그로 남긴다. -->
+    <logger name="jdbc.resultsettable" level="ERROR" />
+
+    <root level="INFO">
+    <!--  appender STDOUT와 ROLLING을 debug레벨로 지정-->
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ROLLING"/>
+        <appender-ref ref="ERROR"/>
     </root>
 </configuration>
