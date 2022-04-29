@@ -43,10 +43,17 @@ public class User {
     @JsonIgnore
     private List<Liked> likedList = new ArrayList<>();
 
+    @Column
+    private String address;
+    @Column
+    private String address_sub;
+
     public User(SignupRequestDto signupRequestDto) {
         this.email = signupRequestDto.getEmail();
         this.username = signupRequestDto.getUsername();
         this.password = signupRequestDto.getPassword();
+        this.address = signupRequestDto.getAddress();
+        this.address_sub = signupRequestDto.getAddress_sub();
     }
 
 }

@@ -17,5 +17,9 @@ public class SignupRequestDto {
     String password;
     @Schema(description = "회원가입 할 이름", example = "user")
     String username;
+    @Schema(description = "회원가입 할 주소")
+    String address;
+    @Schema(description = "회원가입 할 상세주소")
+    String address_sub;
 
 }

@@ -25,9 +25,9 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
 
-    public boolean registerUser(String email, String password, String username) {
+    public boolean registerUser(String email, String password, String username,String address,String address_sub) {
         // 회원 가입 서비스
-        User user = signupValidator.validate(new SignupRequestDto(email, password, username));
+        User user = signupValidator.validate(new SignupRequestDto(email, password, username,address,address_sub));
         userRepository.save(user);
         return true;
     }

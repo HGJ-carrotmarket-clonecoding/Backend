@@ -32,14 +32,16 @@ public class UserController {
     @Operation(summary = "회원가입")
     @PostMapping("/register")
     public ResponseDto createUser(@RequestBody SignupRequestDto signupRequestDto){
-        log.info("POST, '/user/register', email={}, password={}, username={}",
-                signupRequestDto.getEmail(), signupRequestDto.getPassword(), signupRequestDto.getUsername());
+        log.info("POST, '/user/register', email={}, password={}, username={},address={},address_sub",
+                signupRequestDto.getEmail(), signupRequestDto.getPassword(), signupRequestDto.getUsername(),signupRequestDto.getAddress(),signupRequestDto.getAddress_sub());
         String result = "failed";
         String msg = "회원가입에 실패하였습니다.";
         if (userService.registerUser(
                 signupRequestDto.getEmail(),
                 signupRequestDto.getPassword(),
-                signupRequestDto.getUsername())) {
+                signupRequestDto.getUsername(),
+                signupRequestDto.getAddress(),
+                signupRequestDto.getAddress_sub())) {
             result = "success";
             msg = "성공적으로 회원가입되었습니다.";
         }

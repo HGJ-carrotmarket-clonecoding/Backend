@@ -25,6 +25,8 @@ public class SignupValidator {
         String email = signupRequestDto.getEmail().trim();
         String username = signupRequestDto.getUsername().trim();
         String password = signupRequestDto.getPassword().trim();
+        String address = signupRequestDto.getAddress().trim();
+        String address_sub = signupRequestDto.getAddress_sub().trim();
         Optional<User> userByEmail = userRepository.findByEmail(email);
         String pattern = "(?=.*\\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]*$";
 
@@ -43,7 +45,9 @@ public class SignupValidator {
         return User.builder()
                 .email(email)
                 .password(password)
-                .username(username).build();
+                .username(username)
+                .address(address)
+                .address_sub(address_sub).build();
     }
     public static boolean isValidEmail(String email) {
         // 이메일 형식
