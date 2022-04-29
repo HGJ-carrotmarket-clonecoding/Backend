@@ -37,7 +37,7 @@ public class ProductController {
 
         Page<Product> products;
         if (paramQuery.equals(""))
-            products = productService.getProducts(category1, category2, "스테이크", page);
+            products = productService.getProducts(category1, category2, "신발", page);
         else
             products = productService.getProducts(category1, category2, query, page);
         return new ResponseDto("success", paramQuery, products);
