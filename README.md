@@ -27,7 +27,7 @@
 </a><br />
 *  <img 
           src="https://img.shields.io/badge/Raehyeon-FE,BE,DB-blue"/>
-          <a href="https://www.instagram.com/raehyeon._.a/?hl=ko">
+          <a href="https://www.instagram.com/raehyeon._.aa/?hl=ko">
     <img 
         src="http://img.shields.io/badge/-raehyeon._.a-white?style=flat&logo=Instagram&link=https://instagram.com/alpox.dev/"
         style="height : auto; margin-left : 10px; margin-right : 10px;"/>
